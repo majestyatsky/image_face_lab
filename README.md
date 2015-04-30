@@ -1,2 +1,2 @@
 # image_face_lab
-A place to keep all the files for the project for "Image Based Recognition and Classification"
+Here we can keep all the files that we use for the lab and keep track on how we are going!!
