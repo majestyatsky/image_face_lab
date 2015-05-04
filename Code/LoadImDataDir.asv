@@ -1,0 +1,15 @@
+function [ ii_ims ] = LoadImDataDir( dirname, varargin )
+if ~isempty(varargin)
+    ni = varargin{1};
+end
+
+
+fs = dir([dirname filesep '*.bmp']);
+
+ii_ims = zeros(size(fs,1),
+for i=1:length(fs)
+    LoadIm(fs)
+end
+
+end
+
