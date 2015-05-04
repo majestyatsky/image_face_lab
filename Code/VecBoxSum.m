@@ -16,7 +16,29 @@ function b_vec = VecBoxSum(x, y, w, h, W, H)
 b_vec = zeros(1, W * H);
 
 %% Convert 2d coordinates to 1d
-b_vec(sub2ind([H, W], x - 1, y - 1)) = 1;         % +A
-b_vec(sub2ind([H, W], x + w - 1, y - 1)) = -1;    % -B
-b_vec(sub2ind([H, W], x - 1, y + h - 1)) = -1;    % -C
-b_vec(sub2ind([H, W], x + w - 1, y + h - 1)) = 1; % +D
+% If either x and/or y are 1, then A and B and/or C are zero, so we ignore them
+% If the rectangular exceeds the image boundaries, then we reshape it to the end
+% of the image.
+if x + w - 1 > W
+  w = W - x + 1;
+end
+if y + h - 1 > H
+  h = H - y + 1;
+end
+
+b_vec(sub2ind([H, W], y + h - 1, x + w - 1)) = 1; % +D
+
+if x ~=1
+  b_vec(sub2ind([H, W], y + h - 1, x - 1)) = -1;    % -C
+end
+if y ~=1
+  b_vec(sub2ind([H, W], y - 1, x + w - 1)) = -1;    % -B
+end
+if x~=1 && y~=1
+  b_vec(sub2ind([H, W], y - 1, x - 1)) = 1;         % +A
+end
+
+
+
+
+
