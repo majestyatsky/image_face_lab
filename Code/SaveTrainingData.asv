@@ -1,9 +1,0 @@
-function SaveTrainingData(all_ftypes, train_inds, s_fn)
-
-fdata = LoadImDataDir('TrainingImages\FACES');
-nfdata = LoadImDataDir('TrainingImages\NFACES');
-
-ii_ims = [fdata nfdata;ones(size(fdata,2),1)];
-
-
-end
