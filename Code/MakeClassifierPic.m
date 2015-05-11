@@ -12,10 +12,10 @@ function cpic = MakeClassifierPic(all_ftypes, chosen_f, alphas, ps, W, H)
 %  Output: cpic: image representing classifier
 
 cpic = zeros(H,W);
-w = alphas .* ps;
+w = alphas .* ps';
 
 for i = 1:length(chosen_f)
-    cpic = cpic + w(i)*MakeFeaturePic(all_ftypes(chosen_f(i),:), W, H);
+  cpic = cpic + w(i) * MakeFeaturePic(all_ftypes(chosen_f(i), :), W, H);
 end
 
 end
