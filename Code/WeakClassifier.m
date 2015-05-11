@@ -9,7 +9,7 @@ function e = WeakClassifier(f, p, theta)
 %  Description: g(f(x),p,theta) = +1   if p*f(x) < p*theta
 %                                 -1   otherwise
 
-if p*f < p*theta
+if p * f < p * theta
     e = 1;
 else
     e = -1;
