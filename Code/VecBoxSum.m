@@ -28,13 +28,13 @@ end
 
 b_vec(sub2ind([H, W], y + h - 1, x + w - 1)) = 1; % +D
 
-if x ~=1
+if x ~= 1
   b_vec(sub2ind([H, W], y + h - 1, x - 1)) = -1;    % -C
 end
-if y ~=1
+if y ~= 1
   b_vec(sub2ind([H, W], y - 1, x + w - 1)) = -1;    % -B
 end
-if x~=1 && y~=1
+if x ~= 1 && y ~= 1
   b_vec(sub2ind([H, W], y - 1, x - 1)) = 1;         % +A
 end
 
