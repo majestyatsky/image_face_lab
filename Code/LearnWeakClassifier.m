@@ -27,8 +27,13 @@ theta = 0.5 * (mu_P + mu_N);
 err_N = 0;
 err_P = 0;
 for i = 1:n
-  err_N = err_N + (ws(i) * abs(ys(i) - WeakClassifier(fs(i), -1, theta)));
-  err_P = err_P + (ws(i) * abs(ys(i) - WeakClassifier(fs(i), 1, theta)));
+  if (fs(i) > theta)  
+    err_N = err_N + (ws(i) * abs(ys(i) - 1)); % p = -1
+    err_P = err_P + (ws(i) * abs(ys(i) + 1)); % p = 1
+  else
+    err_N = err_N + (ws(i) * abs(ys(i) + 1)); % p = -1
+    err_P = err_P + (ws(i) * abs(ys(i) - 1)); % p = 1
+  end
 end
 
 err_N = 0.5 * err_N;

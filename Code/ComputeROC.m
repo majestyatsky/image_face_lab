@@ -1,8 +1,9 @@
-function ComputeROC(Cparams, Tdata)
+function t = ComputeROC(Cparams, Tdata)
 
 trinds = Tdata.train_inds;
 
-tstinds = setdiff(1:size(Tdata.ii_ims, 2), trinds);
+% tstinds = setdiff(1:size(Tdata.ii_ims, 2), trinds);
+tstinds = trinds;  % we used all images for training, so we'll use all of them to get the threshold
 
 num_of_img = length(tstinds);
 tstScores = zeros(num_of_img, 1);
@@ -23,11 +24,12 @@ for t=1:length(threshold)
 end
 
 plot(fps / max(fps), tps / max(tps));
+xlabel('fps');
+ylabel('tpr');
+title('ROC curve')
 
 id = find(tps / max(tps) >= 0.7, 1, 'last');
 
-% tps / max(tps)
-threshold(id)
-% id
+t = threshold(id);
 
 end
