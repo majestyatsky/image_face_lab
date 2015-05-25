@@ -20,8 +20,8 @@ L = 19;
 [H, W] = size(im);
 dets = [];
 % Using step 1, can change later
-for x = 1:2:W - L
-  for y = 1:2:H - L
+for x = 1:W - L
+  for y = 1:H - L
     %% GET MEAN AND SIGMA
     %% Get two boxes
     box_ii_im = ii_im(y + L - 1, x + L - 1);
@@ -59,7 +59,6 @@ for x = 1:2:W - L
     lab = -1 * ones(length(Cparams.alphas), 1);
     idx = (p .* (f - theta) < 0);
     lab(idx) = lab(idx) + 2;
-    
     scs = sum(alphas .* lab);
     
     if scs > Cparams.thresh
