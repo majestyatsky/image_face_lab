@@ -15,7 +15,7 @@ ii_im_sq = temp(2:end, 2:end);
 
 %% REMEMBER TO USE APPLYDETECTORADAPTED
 L = 19;
-
+% testing git
 %% Search the image
 [H, W] = size(im);
 dets = [];
