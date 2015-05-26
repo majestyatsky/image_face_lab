@@ -22,10 +22,10 @@ Cparams100 = Cparams100.Cparams;
 
 
 
-im = imread('../TestImages/facepic2.jpg');
+im = imread('../TestImages/facepic1.jpg');
 % Cparams.thresh = 3;
 tic
-dets = ScanImageOverScale1(Cparams100, im, 0.2, 1.3, 0.06);
+dets = ScanImageOverScale1(Cparams100, im, 0.4, 1, 0.06);
 toc
 DisplayDetections(im, dets);
 fdets = PruneDetections(dets);
