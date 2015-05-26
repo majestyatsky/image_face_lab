@@ -16,19 +16,19 @@ SaveTrainingData80PerCent(all_ftypes, 'training_data_80.mat', fmat);
 
 T = 100;
 Tdata = load('training_data_80.mat');
-tic
-Cparams100_80 = BoostingAlg(Tdata, T);
-toc
+% tic
+% Cparams100_80 = BoostingAlg(Tdata, T);
+% toc
 % load('Cparams100.mat')
 % for i = 1: length(Cparams.alphas)
 %   fpic = MakeFeaturePic(Tdata.all_ftypes(Cparams.Thetas(i, 1), :), 19, 19);
 %   figure
 %   imagesc(fpic);
 % end
-% cpic = MakeClassifierPic(Tdata.all_ftypes, Cparams.Thetas(:, 1), Cparams.alphas,...
-%   Cparams.Thetas(:, 3), 19, 19);
-% figure
-% imagesc(cpic)
+cpic = MakeClassifierPic(Tdata.all_ftypes, Cparams100_80.Thetas(:, 1), Cparams100_80.alphas,...
+  Cparams100_80.Thetas(:, 3), 19, 19);
+figure
+imagesc(cpic)
 % colormap(gray)
 % 
 % sum(abs(dinfo7.alphas' - Cparams.alphas) > eps)
@@ -36,7 +36,7 @@ toc
 
 % profile viewer
 
-% ComputeROC(Cparams100.Cparams, Tdata)
+ComputeROC(Cparams100_80, Tdata)
 
 % im = imread('../TestImages/one_chris.png');
 % dets = ScanImageOverScale(Cparams10_all, im, 0.6, 1.3, 0.06);

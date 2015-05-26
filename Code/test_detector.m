@@ -5,8 +5,8 @@ close all
 % profile clear
 % profile on
 
-load('Cparams100.mat');
-Cparams100 = Cparams100.Cparams;
+load('Cparams100_80.mat');
+% Cparams100 = Cparams100.Cparams;
 
 % im = imread('../TestImages/one_chris.png');
 % Cparams.thresh = 1.9;
@@ -22,10 +22,11 @@ Cparams100 = Cparams100.Cparams;
 
 
 
-im = imread('../TestImages/facepic1.jpg');
+im = imread('../TestImages/akash.jpg');
+im = imresize(im, 0.2);
 % Cparams.thresh = 3;
 tic
-dets = ScanImageOverScale1(Cparams100, im, 0.4, 1, 0.06);
+dets = ScanImageOverScale1(Cparams100_80, im, 0.2, 0.8, 0.06);
 toc
 DisplayDetections(im, dets);
 fdets = PruneDetections(dets);

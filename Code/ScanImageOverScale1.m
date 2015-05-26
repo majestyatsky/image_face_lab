@@ -2,7 +2,7 @@ function dets = ScanImageOverScale1(Cparams, im, min_s, max_s, step_s)
 scs = min_s:step_s:max_s;
 dets = cell(length(scs),1);
 
-for i=1:length(scs)
+parfor i=1:length(scs)
   scs(i)
   a = imresize(im,scs(i));
   boxes = ScanImageFixedSize(Cparams, a);
