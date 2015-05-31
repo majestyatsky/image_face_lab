@@ -17,9 +17,9 @@ close all
 % profile on
 
 T = 100;
-Tdata = load('training_data.mat');
-% Cparams100_all = BoostingAlg(Tdata, T);
-load('Cparams100.mat')
+Tdata = load('training_data_80.mat');
+Cparams100_all = BoostingAlg(Tdata, T);
+load('Cparams100_80.mat')
 % for i = 1: length(Cparams.alphas)
 %   fpic = MakeFeaturePic(Tdata.all_ftypes(Cparams.Thetas(i, 1), :), 19, 19);
 %   figure
@@ -36,7 +36,7 @@ load('Cparams100.mat')
 
 % profile viewer
 
-ComputeROC(Cparams100.Cparams, Tdata)
+ComputeROC(Cparams100_80, Tdata)
 
 % im = imread('../TestImages/one_chris.png');
 % dets = ScanImageOverScale(Cparams10_all, im, 0.6, 1.3, 0.06);
