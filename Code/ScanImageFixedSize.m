@@ -15,10 +15,13 @@ ii_im_sq = temp(2:end, 2:end);
 
 %% REMEMBER TO USE APPLYDETECTORADAPTED
 L = 19;
-
+% testing git
 %% Search the image
 [H, W] = size(im);
-dets = [];
+dets = cell((W - L) * (H - L), 1);
+face = 0;
+ind_III = (Cparams.all_ftypes(Cparams.Thetas(:,1), 1) == 3);
+quantity = Cparams.all_ftypes(ind_III, 4) .* Cparams.all_ftypes(ind_III, 5);
 % Using step 1, can change later
 for x = 1:W - L
   for y = 1:H - L
@@ -42,27 +45,21 @@ for x = 1:W - L
     sigma = sqrt(abs((box_ii_im_sq - L^2 * mu^2) / (L^2 - 1)));
     
     %% APPLY ADAPTED DETECTOR
-    alphas = Cparams.alphas;
-    chose_f = Cparams.Thetas(:,1);
-    theta = Cparams.Thetas(:,2);
-    p = Cparams.Thetas(:,3);
-
     ii_ims = ii_im(y:y + L - 1, x:x + L - 1);
     
-    f = Cparams.fmat(chose_f, :) * ii_ims(:) / sigma;
+    f = Cparams.fmat(Cparams.Thetas(:,1), :) * ii_ims(:) / sigma;
     %% If feature is Type III add (w * h * mu / sigma)
-    ind_III = (Cparams.all_ftypes(chose_f, 1) == 3);
-
-    f(ind_III) = f(ind_III) + Cparams.all_ftypes(ind_III, 4) .*...
-      Cparams.all_ftypes(ind_III, 5) * mu / sigma;
+    f(ind_III) = f(ind_III) + quantity * mu / sigma;
 
     lab = -1 * ones(length(Cparams.alphas), 1);
-    idx = (p .* (f - theta) < 0);
+    idx = (Cparams.Thetas(:,3) .* (f - Cparams.Thetas(:,2)) < 0);
     lab(idx) = lab(idx) + 2;
-    scs = sum(alphas .* lab);
+    scs = sum(Cparams.alphas .* lab);
     
     if scs > Cparams.thresh
-      dets = [dets; x y L L];
+      face = face + 1;
+      dets{face} = [x y L L];
     end
   end
 end
+dets = vertcat(dets{:});

@@ -48,9 +48,9 @@ for t = 1:T
     indx = (fs(feat, :) > theta(feat));
     err_N = sum(w(indx) .* abs(Tdata.ys(indx) - 1)); % p = -1
     err_P = sum(w(indx) .* abs(Tdata.ys(indx) + 1)); % p = 1
-    indx = (fs(feat, :) <= theta(feat));
-    err_N = 0.5 * (err_N + sum(w(indx) .* abs(Tdata.ys(indx) + 1))); % p = -1
-    err_P = 0.5 * (err_P + sum(w(indx) .* abs(Tdata.ys(indx) - 1))); % p = 1
+%     indx = (fs(feat, :) <= theta(feat));
+    err_N = 0.5 * (err_N + sum(w(~indx) .* abs(Tdata.ys(~indx) + 1))); % p = -1
+    err_P = 0.5 * (err_P + sum(w(~indx) .* abs(Tdata.ys(~indx) - 1))); % p = 1
     
     if err_N > err_P
       err(feat) = err_P;
