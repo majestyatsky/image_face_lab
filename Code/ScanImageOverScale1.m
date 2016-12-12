@@ -3,6 +3,7 @@ scs = min_s:step_s:max_s;
 dets = cell(length(scs),1);
 
 parfor i=1:length(scs)
+% for i=1:length(scs)
   scs(i)
   a = imresize(im,scs(i));
   boxes = ScanImageFixedSize(Cparams, a);

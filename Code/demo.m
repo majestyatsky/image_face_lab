@@ -196,11 +196,18 @@ clear
 clc
 Cparams = load('Cparams.mat');
 Cparams.Cparams.thresh = 3;
-chris = imread('../TestImages/big_one_chris.png');
+chris = imread('../TestImages/big_many_faces.jpg');
 % chris = imresize(chris, 1.2);
 tic
 dets = ScanImageOverScale1(Cparams.Cparams, chris, 0.6, 1.3, 0.06);
 toc
+tic
+dets1 = ScanImageOverScaleSkin(Cparams.Cparams, chris, 0.6, 1.3, 0.06);
+toc
 DisplayDetections(chris, dets);
 fdets = PruneDetections(dets);
 DisplayDetections(chris, fdets)
+
+DisplayDetections(chris, dets1);
+fdets1 = PruneDetections(dets1);
+DisplayDetections(chris, fdets1)

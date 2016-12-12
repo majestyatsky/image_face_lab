@@ -1,4 +1,5 @@
-function [mask1, mask2, mask3, mask4] = getSkinColorModelMasks(img)
+function [mask1,mask2,mask3,mask4] = getSkinColorModelMasks(img)
+
 img = im2uint8(img);
 % x=linspace(0,1,256);
 R = img(:,:,1); G = img(:,:,2); B = img(:,:,3);
