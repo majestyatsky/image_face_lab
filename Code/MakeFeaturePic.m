@@ -1,7 +1,6 @@
 function fpic = MakeFeaturePic(ftype, W, H)
-
 %% Function MakeFeaturePic:
-%  Create an image representing feature
+%  Create an image representing a feature
 %  Input: ftype: vector of feature type
 %         W: width of the feature image
 %         H: height of the feature image
@@ -34,5 +33,4 @@ switch type
     fpic(y + h:y + 2 * h - 1, x:x + w - 1) = -1;
     fpic(y + h:y + 2 * h - 1, x + w:x + 2 * w - 1) = 1;
     
-end
 end

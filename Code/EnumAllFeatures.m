@@ -1,6 +1,9 @@
-function all_ftypes = EnumAllFeatures1(W, H)
+function all_ftypes = EnumAllFeatures(W, H)
+%% *** Professors suggested limits used. Overcautious along the edges
+%      of the images. Fewer feature types calculated (final classifier)
+%      still works nicely. ***
 
-all_ftypes = zeros(50000, 5);
+all_ftypes = zeros(40000, 5);
 i = 1;
 
 for type = 1:4

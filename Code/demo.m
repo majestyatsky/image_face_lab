@@ -62,7 +62,7 @@ res = EnumAllFeatures(19, 19);
 %% Debug Point Program 5
 dinfo3 = load('../DebugInfo/debuginfo3.mat');
 fmat = VecAllFeatures(dinfo3.all_ftypes, 19, 19);
-sum(abs(dinfo3.fs - fmat * ii_im(:)) > eps);
+sum(abs(dinfo3.fs - fmat * ii_im(:)) > eps)
 
 %% Debug Point Program 6
 % test = LoadImDataDir('../TrainingImages/FACES', 100);
@@ -82,16 +82,17 @@ all_ftypes = dinfo5.all_ftypes;
 SaveTrainingData(all_ftypes, train_inds, 'training_data.mat');
 
 %% Debug Point Program 8
+clc
 Tdata = load('training_data.mat');
-fs = fmat(12028, :) * ii_ims;
+fs = Tdata.fmat(12028, :) * Tdata.ii_ims;
 ws = ones(1, length(fs)) / length(fs);
-[theta, p, err] = LearnWeakClassifier(ws, fs, ys);
-a = fs(ys == 1);
+[theta, p, err] = LearnWeakClassifier(ws, fs, Tdata.ys);
+a = fs(Tdata.ys == 1);
 h = histogram(a, 'Normalization', 'probability');
 f = figure;
 plot(h.BinEdges(1:end-1), h.Values)
 figure
-a = fs(ys == -1);
+a = fs(Tdata.ys == -1);
 h = histogram(a, 'Normalization', 'probability');
 figure(f)
 hold on
@@ -109,9 +110,11 @@ cpic = MakeClassifierPic(all_ftypes, [5192, 12765], [1.8725, 1.467], [1, -1],...
   19, 19);
 imagesc(cpic)
 
-Debug Point Program 11
-Data = struct('all_ftypes', Tdata.all_ftypes, 'fmat', Tdata.fmat(, :),...
-  'ii_ims', Tdata.ii_ims, 'ys', Tdata.ys);
+%% Debug Point Program 11
+clc
+Tdata = load('training_data.mat');
+Data = struct('all_ftypes', Tdata.all_ftypes, 'fmat',...
+  Tdata.fmat(1:1000, :), 'ii_ims', Tdata.ii_ims, 'ys', Tdata.ys);
 Cparams = BoostingAlg(Data, 3);
 
 fpic = MakeFeaturePic(Tdata.all_ftypes(Cparams.Thetas(1, 1), :), 19, 19);
@@ -126,34 +129,29 @@ fpic = MakeFeaturePic(Tdata.all_ftypes(Cparams.Thetas(3, 1), :), 19, 19);
 figure
 imagesc(fpic);
 
-cpic = MakeClassifierPic(Tdata.all_ftypes, Cparams.Thetas(:, 1), Cparams.alphas,...
-  Cparams.Thetas(:, 3), 19, 19);
+cpic = MakeClassifierPic(Tdata.all_ftypes, Cparams.Thetas(1:3, 1),...
+  Cparams.alphas, Cparams.Thetas(1:3, 3), 19, 19);
 figure
 imagesc(cpic)
 
 dinfo6 = load('../DebugInfo/debuginfo6.mat');
 T = dinfo6.T;
-Data = load('training_data.mat')
+% Data = load('training_data.mat');
 tic
 Cparams = BoostingAlg(Data, T);
 toc
-sum(abs(dinfo6.alphas' - Cparams.alphas) > eps)
+
+sum(abs(dinfo6.alphas - Cparams.alphas) > eps)
 sum(abs(dinfo6.Thetas(:) - Cparams.Thetas(:)) > eps)
 
 
-Cparams = BoostingAlg(Data, 3);
-
-fpic = MakeFeaturePic(Tdata.all_ftypes(Cparams.Thetas(1, 1), :), 19, 19);
-figure
-imagesc(fpic);
-
-
+%%
 
 dinfo7 = load('../DebugInfo/debuginfo7.mat');
 T = dinfo7.T;
-Cparams = load('Cparams.mat');
-Cparams = Cparams.Cparams;
-% Cparams = BoostingAlg(Tdata, T);
+% Cparams = load('Cparams.mat');
+% Cparams = Cparams.Cparams;
+Cparams = BoostingAlg(Tdata, T);
 for i = 1: length(Cparams.alphas)
   fpic = MakeFeaturePic(Tdata.all_ftypes(Cparams.Thetas(i, 1), :), 19, 19);
   figure

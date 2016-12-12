@@ -1,6 +1,9 @@
-function all_ftypes = EnumAllFeatures(W, H)
+function all_ftypes = EnumAllFeatures1(W, H)
+%% *** More complete limits used. Calculate all of the feature types.
+%      ~10000 more than the other version of the function. ***
 
-all_ftypes = zeros(40000, 5);
+
+all_ftypes = zeros(50000, 5);
 i = 1;
 
 for type = 1:4

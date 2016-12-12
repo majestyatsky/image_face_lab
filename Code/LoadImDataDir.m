@@ -1,4 +1,6 @@
 function [ ii_ims ] = LoadImDataDir( dirname, varargin )
+%% Loads the images from directory 'dirname'.
+%  If varargin is given, then the first ni = varargin(1) images are loaded
 
 fs = dir([dirname filesep '*.bmp']);
 
@@ -13,6 +15,3 @@ for i = 1:ni
   [~, tmp] = LoadIm([dirname filesep fs(i).name]);
   ii_ims(:, i)= tmp(:);
 end
-
-end
-

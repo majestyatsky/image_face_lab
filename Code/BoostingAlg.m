@@ -1,4 +1,8 @@
 function Cparams = BoostingAlg(Tdata, T)
+%% Implement Boosting algorithm
+%  Train T weak classifiers
+%  For each weak classifier we get the corresponding theta, p and
+%  chosen feature.
 disp('Initiate AdaBoost')
 
 alphas = zeros(T, 1);
@@ -26,12 +30,10 @@ p = zeros(numFeats, 1);
 err = zeros(numFeats, 1);
 
 for t = 1:T
-  t
   % Normalize weights
   w = w / sum(w);
 
   for feat = 1: numFeats
-    %     disp(['feature: ' num2str(feat)])
     %% Learn weak classifier
     % Computing weighted mean of positive and negative examples
     denominator_P = sum(w .* val_P);
@@ -41,14 +43,13 @@ for t = 1:T
     mu_P = nominator_P / denominator_P;
     mu_N = nominator_N / denominator_N;
     
-    %Setting theta
+    % Setting theta
     theta(feat) = 0.5 * (mu_P + mu_N);
     
     % Computing error associated with the two possible parity values
     indx = (fs(feat, :) > theta(feat));
     err_N = sum(w(indx) .* abs(Tdata.ys(indx) - 1)); % p = -1
     err_P = sum(w(indx) .* abs(Tdata.ys(indx) + 1)); % p = 1
-%     indx = (fs(feat, :) <= theta(feat));
     err_N = 0.5 * (err_N + sum(w(~indx) .* abs(Tdata.ys(~indx) + 1))); % p = -1
     err_P = 0.5 * (err_P + sum(w(~indx) .* abs(Tdata.ys(~indx) - 1))); % p = 1
     
