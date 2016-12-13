@@ -167,21 +167,27 @@ sum(abs(dinfo7.Thetas(:) - Cparams.Thetas(:)) > eps)
 
 %% Debug point program 12
 
-[im, ii_im] = LoadIm('../TrainingImages/FACES/face00001.bmp');
+[~, ii_im] = LoadIm('../TrainingImages/FACES/face00001.bmp');
 num = ApplyDetector(Cparams.Cparams, ii_im);
 
 %% Debug Point Program 13
+clc
+load('Cparams.mat')
 Tdata = load('training_data.mat');
-ComputeROC(Cparams.Cparams, Tdata);
+tic;
+ComputeROC(Cparams, Tdata);
+toc;
 
 %% Debug Point Program 14
+clc
 im = imread('../TrainingImages/FACES/face00001.bmp');
-dets = ScanImageFixedSize(Cparams.Cparams, im);
+size(im)
+dets = ScanImageFixedSize(Cparams, im)
 
 %% Debug Point Program 15
-Cparams = load('Cparams.mat');
+load('Cparams.mat');
 im = imread('../TestImages/one_chris.png');
-dets = ScanImageFixedSize(Cparams.Cparams, im);
+dets = ScanImageFixedSize(Cparams, im);
 
 DisplayDetections(im, dets);
 

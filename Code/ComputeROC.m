@@ -1,49 +1,51 @@
 function t = ComputeROC(Cparams, Tdata)
+%% Calculate scores for a number of testing images
+%  Find a good threshold to use to divide the scores into face-nonface
+%  Produce ROC curve
+
 
 facesDir = '../TrainingImages/FACES/';
 nonfacesDir = '../TrainingImages/NFACES/';
 face_ii = LoadImDataDir(facesDir);
-1
+disp('Face images loaded')
 nonface_ii = LoadImDataDir(nonfacesDir);
-2
-all_images = [face_ii, nonface_ii];
+disp('non-face images loaded')
 
+all_images = [face_ii, nonface_ii];
 total_im = size(all_images, 2);
 face_im = size(face_ii, 2);
-targets = ones(1, total_im);
 
-targets(face_im + 1:end) = -1;
+labels = ones(1, total_im);
+labels(face_im + 1:end) = -1;
 
-trinds = Tdata.train_inds;
+tr_inds = Tdata.train_inds;
 total_inds = 1:total_im;
+tst_inds = setdiff(total_inds, tr_inds);
 
-tstinds = setdiff(total_inds, trinds);
+test_ii_ims = all_images(:, tst_inds);
+test_labels = labels(tst_inds);
 
-num_of_img = length(tstinds);
-tstScores = zeros(num_of_img, 1);
-
-for i = 1:num_of_img
-  tstScores(i) = ApplyDetector(Cparams, all_images(:, tstinds(i)));
-end
+tstScores = ApplyDetector(Cparams, test_ii_ims);
+disp('Score obtained')
 
 threshold = min(tstScores):0.15:max(tstScores);
 
-g = targets(tstinds);
-tps = zeros(length(threshold),1);
-fps = zeros(length(threshold),1);
-for t=1:length(threshold)
+tpr = zeros(length(threshold), 1);
+fpr = zeros(length(threshold), 1);
+for t = 1:length(threshold)
     a = tstScores > threshold(t);
-    tps(t) = length(find(a == 1 & g' == 1));
-    fps(t) = length(find(a == 1 & g' == -1));
+    tp = sum(a == 1 & test_labels == 1);
+    fp = sum(a == 1 & test_labels == -1);
+    tn = sum(a == 0 & test_labels == -1);
+    fn = sum(a == 0 & test_labels == 1);
+    tpr(t) = tp / (tp + fn);
+    fpr(t) = fp / (tn + fp);
 end
 figure
-plot(fps / max(fps), tps / max(tps));
-xlabel('fps');
+plot(fpr, tpr);
+xlabel('fpr');
 ylabel('tpr');
 title('ROC curve')
 
-id = find(tps / max(tps) >= 0.7, 1, 'last');
-
-t = threshold(id);
-
-end
+id = find(tpr >= 0.7, 1, 'last');
+t = threshold(id)

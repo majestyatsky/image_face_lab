@@ -1,5 +1,7 @@
 function [ ii_ims ] = LoadImDataDir( dirname, varargin )
 %% Loads the images from directory 'dirname'.
+%  Return the integral images converted into a column vector.
+%  ii_ims size [(image_width * image_height) x num_of_imgs]
 %  If varargin is given, then the first ni = varargin(1) images are loaded
 
 fs = dir([dirname filesep '*.bmp']);

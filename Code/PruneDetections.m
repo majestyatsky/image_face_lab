@@ -1,5 +1,8 @@
 function fdets = PruneDetections(dets)
+%% Find and remove all detections that overlap for over rho% of their area
+
 fdets = [];
+
 if (~isempty(dets))
   %% Find overlapping detections
   nd = size(dets, 1);
@@ -26,8 +29,10 @@ if (~isempty(dets))
   m = zeros(S, 1);
   
   for i=1:nd
-    fdets(C(i), :) = fdets(C(i), :) + dets(i, :); %Adding the coordinates of the bounding boxes of the same face
-    m(C(i)) = m(C(i)) + 1; %Counting number of bounding boxes for a single face
+    % Adding the coordinates of the bounding boxes of the same face
+    fdets(C(i), :) = fdets(C(i), :) + dets(i, :);
+    % Counting number of bounding boxes for a single face
+    m(C(i)) = m(C(i)) + 1;
   end
   
   fdets = int32(fdets ./ (m * ones(1, 4))); %Averaging the coordinates of the bounding boxes of the same face
